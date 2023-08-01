@@ -4,12 +4,11 @@ from django.db import models
 
 class TravelPost(models.Model):
     # host = 
-
     # topic =
     # post_pic =
+    # commentators =
     name = models.CharField(max_length=200)
     text = models.TextField(max_length=200, null=True, blank=True)
-    # commentators =
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

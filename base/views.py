@@ -1,12 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import TravelPost
 # Create your views here.
-
-# authors = [
-#     {'id': 1, 'name': 'Bobby'},
-#     {'id': 2, 'name': 'Tony'},
-#     {'id': 3, 'name': 'Andy'},
-# ]
 
 def home(request):
     print(request)
@@ -16,10 +10,8 @@ def home(request):
 
 
 def travel_post(request, pk):
-    travel_post = None
-    travel_post = TravelPost.objects.get(pk=pk)
+    travel_post = get_object_or_404(TravelPost, pk=pk)
     context = {'travel_post': travel_post}
-
     return render(request, 'base/travel_post.html', context)
 
 

@@ -1,7 +1,9 @@
 {% extends "main.html" %}
 
 {% block content %}
-<h1>ABOUT AUTHOR</h1>
-{{ travel_post.id }} -- {{ travel_post.name }} -- {{ travel_post.created }} 
+<h1>{{ travel_post.name }}</h1>
+<h5>{{ travel_post.created }}</h5>
+
+<h2>{{ travel_post.text }}</h2>
 
 {% endblock content %}
