@@ -1,0 +1,7 @@
+{% extends "main.html" %}
+
+{% block content %}
+    {% for travel_post in travel_posts %}
+        <p><a href="{% url 'travel_post' travel_post.id %}">{{ travel_post.id }}</a> -- {{ travel_post.name }}</p>
+    {% endfor %}
+{% endblock content %}
