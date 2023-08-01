@@ -5,7 +5,11 @@ from .models import TravelPost
 def home(request):
     print(request)
     travel_posts = TravelPost.objects.all()
-    context = {'travel_posts':travel_posts}
+    posts_per_page = 10
+    context = {
+        'travel_posts':travel_posts,
+        'posts_per_page': posts_per_page
+    }
     return render(request, 'base/home.html', context)
 
 
@@ -18,4 +22,4 @@ def travel_post(request, pk):
 def contact(request):
     if request.method == 'POST':
         print(request.POST.get('firstname'))
-    return render(request, 'base/contact.html')
+    return render(request, 'contact.html')
