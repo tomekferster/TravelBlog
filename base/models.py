@@ -2,16 +2,43 @@ from django.db import models
 
 # Create your models here.
 
+   
 class TravelPost(models.Model):
-    # host = 
+    # id = models.UUIDField(default=uuid.uuid4, unique=True,
+    #                       primary_key=True, editable=False)   # I might want to use this one for its advantages
+    # author = 
     # topic =
-    # post_pic =
     # commentators =
     name = models.CharField(max_length=200)
     text = models.TextField(max_length=200, null=True, blank=True)
+    votes_total = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField('Tag', null=True, blank=True)         # used quotes on Tag, because the Tag class is below the TravelPost class
+    # image =
+   
+    def __str__(self):
+        return self.name
+    
+    
+class Comment(models.Model):
+    VOTE_TYPE = (
+        ('up', 'Up Vote'),
+        ('down', 'Down Vote')
+    )
+    # author =
+    text = models.TextField(max_length=200, null=True, blank=True)
+    vote_post = models.CharField(max_length=200, choices=VOTE_TYPE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey(TravelPost, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.value
+    
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
-     
