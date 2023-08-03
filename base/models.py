@@ -34,7 +34,7 @@ class Comment(models.Model):
     post = models.ForeignKey(TravelPost, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.value
+        return self.vote_post
     
 
 class Tag(models.Model):
@@ -42,3 +42,5 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+    
+

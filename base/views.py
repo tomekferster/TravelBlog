@@ -15,7 +15,16 @@ def home(request):
 
 def travel_post(request, pk):
     travel_post = get_object_or_404(TravelPost, pk=pk)
-    context = {'travel_post': travel_post}
+    comments = travel_post.comment_set.all()        # accessing child class 
+    comments_num = len(travel_post.comment_set.all())
+    tags = travel_post.tags.all()                   # accessing many to many relation classes
+    
+    context = {
+        'travel_post': travel_post,
+        'comments': comments,
+        'comments_num': comments_num,
+        'tags': tags
+        }
     return render(request, 'base/travel_post.html', context)
 
 
