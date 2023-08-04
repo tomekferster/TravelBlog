@@ -6,7 +6,7 @@
 
 <h2>{{ travel_post.text }}</h2>
 <ul>
-    {% for tag in tags %}
+    {% for tag in travel_post.tags.all  %}
         <li>{{ tag.name }}</li>
     {% endfor %}
 </ul>

@@ -1,7 +1,26 @@
 {% extends "main.html" %}
 <!-- {% load static %} -->
 {% block content %}
+
+<h1>Travel Posts</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Post Name</th>
+        <th>Votes</th>
+        <th>Created</th>
+        <th>Link</th>
+    </tr>
     {% for travel_post in travel_posts %}
-        <p><a href="{% url 'travel_post' travel_post.id %}">{{ travel_post.id }}</a> -- {{ travel_post.name }}</p>
+        <tr>
+            <td>{{ travel_post.id }}</td>
+            <td>{{ travel_post.name }}</td>
+            <td>{{ travel_post.votes_total }}</td>
+            <td>{{ travel_post.created }}</td>
+            <td><a href="{% url 'travel-post' travel_post.id %}">View</a></td>
+        </tr>
     {% endfor %}
+</table>
+
 {% endblock content %}
