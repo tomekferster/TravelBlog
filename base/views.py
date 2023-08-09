@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import TravelPost
 from .forms import TravelPostForm
 # Create your views here.
@@ -31,9 +31,24 @@ def travel_post(request, pk):
 
 def create_travel_post(request):
     form = TravelPostForm(request.POST or None)
-    if form.is_valid():
-        form.save()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    context = {
+        'form': form,
+    }
+    return render(request, 'base/travel_post_form.html', context)
 
+
+def update_travel_post(request, pk):
+    obj = get_object_or_404(TravelPost, pk=pk)
+    form = TravelPostForm(instance=obj)
+    if request.method == 'POST':
+        form = TravelPostForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
     context = {
         'form': form,
     }
