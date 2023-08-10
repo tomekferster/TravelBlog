@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 
 {% block content %}
+<img style="max-width: 1000px" src="{{ travel_post.image.url }}">      <!-- remember about adding '.url' for images!! -->
 <h1>{{ travel_post.name }}</h1>
 <h5>{{ travel_post.created }}</h5>
 

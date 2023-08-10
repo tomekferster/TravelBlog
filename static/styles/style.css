@@ -15,3 +15,8 @@ header h1 {
   /* position: relative; */
   top: 18px;
 }
+
+
+textarea {
+  font-family:'Arial';
+}

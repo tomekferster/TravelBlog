@@ -30,8 +30,9 @@ def travel_post(request, pk):
 
 
 def create_travel_post(request):
-    form = TravelPostForm(request.POST or None)
+    form = TravelPostForm(request.POST or None, request.FILES or None)  # request.FILES needed to process images
     if request.method == 'POST':
+        print(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
@@ -43,9 +44,9 @@ def create_travel_post(request):
 
 def update_travel_post(request, pk):
     obj = get_object_or_404(TravelPost, pk=pk)
-    form = TravelPostForm(instance=obj)
+    form = TravelPostForm(request.FILES or None, instance=obj)
     if request.method == 'POST':
-        form = TravelPostForm(request.POST, instance=obj)
+        form = TravelPostForm(request.POST, request.FILES, instance=obj)
         if form.is_valid():
             form.save()
             return redirect('home')
