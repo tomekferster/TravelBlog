@@ -54,6 +54,7 @@ def update_travel_post(request, pk):
     }
     return render(request, 'base/travel_post_form.html', context)
 
+
 def delete_travel_post(request, pk):
     obj = get_object_or_404(TravelPost, pk=pk)
     if request.method == 'POST':
