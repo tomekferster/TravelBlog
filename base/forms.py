@@ -1,5 +1,5 @@
 from django import forms
-from .models import TravelPost
+from .models import TravelPost, Comment
 
 class TravelPostForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"size": 40, "placeholder": "Enter travel post name here..."}))
@@ -18,3 +18,9 @@ class TravelPostForm(forms.ModelForm):
     #     data = self.cleaned_data["recipients"]
     #     if "fred@example.com" not in data:
     #         raise ValidationError("You have forgotten about Fred!")
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text', 'vote_post']

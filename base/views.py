@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import TravelPost
-from .forms import TravelPostForm
+from .forms import TravelPostForm, CommentForm
 # Create your views here.
 
 
@@ -21,10 +21,21 @@ def travel_post(request, pk):
     comments = travel_post.comment_set.all()            # accessing child class 
     comments_num = len(travel_post.comment_set.all())
     # tags = travel_post.tags.all()                     # accessing many to many relation classes, done on the template side
+    new_comment = None
+
+    form = CommentForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = travel_post
+            new_comment.save()
+            return redirect('travel-post', pk=travel_post.pk)
+
     context = {
         'travel_post': travel_post,
         'comments': comments,
         'comments_num': comments_num,
+        'form': form,
         }
     return render(request, 'base/travel_post.html', context)
 
