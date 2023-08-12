@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fl@g6%f9_4mq7@ga8rir(eegwib1mzyq!k7fi^8br!x$&w@kn#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # domains allowed in our website - it's a must after changing DEBUG to False
 
 
 # Application definition
@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # had to add this to serve the static files (while Debug = False), as well as install whitenoise; also whitenoise does not serve the user uploaded content
 ]
 
 ROOT_URLCONF = 'travelblog.urls'
@@ -121,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles' # defines where static files in the production (!) are gonna be, to update it run python manage.py collectstatic
 
 MEDIA_URL = 'images/'
 MEDIA_ROOT = BASE_DIR / 'static/images'
