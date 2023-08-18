@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import TravelPost
+from .models import TravelPost, Tag
 from .forms import TravelPostForm, CommentForm
 # Create your views here.
 
 
 def home(request, *args, **kwargs):
-    print(request.user)
-    print(args, kwargs)
+    # print(request.user)
+    # print(args, kwargs)
     travel_posts = TravelPost.objects.all()
     posts_per_page = 10
     context = {
@@ -57,9 +57,20 @@ def update_travel_post(request, pk):
     obj = get_object_or_404(TravelPost, pk=pk)
     form = TravelPostForm(request.FILES or None, instance=obj)
     if request.method == 'POST':
+        print(request.POST)
         form = TravelPostForm(request.POST, request.FILES, instance=obj)
         if form.is_valid():
-            form.save()
+            new_travel_post = form.save(commit=False)
+            # if request.POST.get('new_tags'):
+            #     new_tags = request.POST.get('new_tags')
+            #     new_tags = [d.strip() for d in new_tags.split('#')][1:]
+            #     print(f'new tags {new_tags}')
+            #     for t in new_tags:
+            #         t = '#' + t
+            #         new_tag = Tag.objects.create(name=t)
+            #         new_travel_post.tags.add(new_tag)
+            new_travel_post.save()
+            form.save_m2m()     #used to save the multiple choice field - CHECK!!!
             return redirect('home')
     context = {
         'form': form,

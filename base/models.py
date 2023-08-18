@@ -14,8 +14,8 @@ class TravelPost(models.Model):
     votes_total = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField('Tag', null=True, blank=True)         # used quotes on Tag, because the Tag class is below the TravelPost class
     image = models.ImageField(default='default_post_img.jpg', null=True, blank=True)
+    tags = models.ManyToManyField('Tag', null=True, blank=True)         # used quotes on Tag, because the Tag class is below the TravelPost class
    
     def __str__(self):
         return self.name
