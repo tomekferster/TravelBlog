@@ -3,10 +3,24 @@ from .models import TravelPost, Tag
 from .forms import TravelPostForm, CommentForm
 # Create your views here.
 
+#not a view func
+def add_tags(rq, tp):
+    if rq.POST.get('new_tags'):
+        new_tags = rq.POST.get('new_tags')
+        new_tags = (d.strip() for d in new_tags.split('#'))
+        next(new_tags)  # first record is a garbage, omit it
+        for t in new_tags:
+            t = '#' + t.replace(' ', '_').capitalize()
+            all_tags = (tg.name for tg in Tag.objects.all())
+            if t not in all_tags:
+                tag = Tag.objects.create(name=t)
+            else:
+                tag = Tag.objects.get(name=t)
+                print('HERE ', tag)
+            tp.tags.add(tag)
+
 
 def home(request, *args, **kwargs):
-    # print(request.user)
-    # print(args, kwargs)
     travel_posts = TravelPost.objects.all()
     posts_per_page = 10
     context = {
@@ -45,7 +59,9 @@ def create_travel_post(request):
     if request.method == 'POST':
         print(request.POST)
         if form.is_valid():
-            form.save()
+            new_travel_post = form.save()
+            add_tags(request, new_travel_post)
+            new_travel_post.save()
             return redirect('home')
     context = {
         'form': form,
@@ -57,20 +73,12 @@ def update_travel_post(request, pk):
     obj = get_object_or_404(TravelPost, pk=pk)
     form = TravelPostForm(request.FILES or None, instance=obj)
     if request.method == 'POST':
-        print(request.POST)
         form = TravelPostForm(request.POST, request.FILES, instance=obj)
         if form.is_valid():
-            new_travel_post = form.save(commit=False)
-            # if request.POST.get('new_tags'):
-            #     new_tags = request.POST.get('new_tags')
-            #     new_tags = [d.strip() for d in new_tags.split('#')][1:]
-            #     print(f'new tags {new_tags}')
-            #     for t in new_tags:
-            #         t = '#' + t
-            #         new_tag = Tag.objects.create(name=t)
-            #         new_travel_post.tags.add(new_tag)
-            new_travel_post.save()
-            form.save_m2m()     #used to save the multiple choice field - CHECK!!!
+            updated_travel_post = form.save(commit=False)           
+            form.save_m2m()      # needed to save existing checked/unchecked tags
+            add_tags(request, updated_travel_post)  # needed to create new tags and add them to the travel post
+            updated_travel_post.save()
             return redirect('home')
     context = {
         'form': form,
