@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import TravelPost, Tag
 from .forms import TravelPostForm, CommentForm
-# Create your views here.
+from django.conf import settings
+
 
 #not a view func
 def add_tags(rq, tp):

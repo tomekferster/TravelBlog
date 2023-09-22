@@ -9,8 +9,8 @@ class TravelPost(models.Model):
     # author = 
     # topic =
     # commentators =
-    name = models.CharField(max_length=200)
-    text = models.TextField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=150)
+    text = models.TextField(max_length=2000, null=True, blank=True)
     votes_total = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -27,7 +27,7 @@ class Comment(models.Model):
         ('down', 'Down Vote')
     )
     # author =
-    text = models.TextField(max_length=200, null=True, blank=True)
+    text = models.TextField(max_length=1000, null=True, blank=True)
     vote_post = models.CharField(max_length=200, choices=VOTE_TYPE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
