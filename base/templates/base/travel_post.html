@@ -5,6 +5,7 @@
 <h1>{{ travel_post.name }}</h1>
 <h5>{{ travel_post.created }}</h5>
 
+<h4>by <i>{{ travel_post.author }}</i></h4>
 <h2>{{ travel_post.text }}</h2>
 <ul>
     {% for tag in travel_post.tags.all  %}
