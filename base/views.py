@@ -20,15 +20,27 @@ def add_tags(rq, tp):
                 print('HERE ', tag)
             tp.tags.add(tag)
 
+#temp, delete later
+def index(request, *args, **kwargs):
+    context = {}
+    return render(request, 'base/index.html', context)
+
 
 def home(request, *args, **kwargs):
-    travel_posts = TravelPost.objects.all()
-    posts_per_page = 10
+    posts_per_page = 3
+    travel_post_newest = TravelPost.objects.all()[0]
+    travel_posts_1 = TravelPost.objects.all()[1:posts_per_page+1]
+    travel_posts_2 = TravelPost.objects.all()[posts_per_page+1:posts_per_page*2+1]
     context = {
-        'travel_posts':travel_posts,
-        'posts_per_page': posts_per_page
+        'travel_post_newest':travel_post_newest,
+        'travel_posts_1':travel_posts_1,
+        'travel_posts_2':travel_posts_2,
     }
     return render(request, 'base/home.html', context)
+
+def about(request):
+    context = {}
+    return render(request, 'base/about.html', context)
 
 
 def travel_post(request, pk):

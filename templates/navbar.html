@@ -1,7 +1,76 @@
-<ul>
-    <li><a href="{% url 'home' %}">Home page</a></li>
-    <li><a href="{% url 'profiles' %}">Authors</a></li>
-    <li><a href="{% url 'create-travel-post' %}">Create travel post</a></li>
-    <li><a href="{% url 'contact' %}">Contact</a></li>
-    <li><a href="/">About</a></li>
-</ul>
+{% load static %}
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+        <a href="{% url 'home' %}" class="logo d-flex align-items-center">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <!-- <img src="{% static 'img_bootstrap/logo.png' %}" alt=""> -->
+            <h1>TravelBlog</h1>
+        </a>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}">Home Page</a></li>
+                <li><a href="{% url 'profiles' %}">Authors</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li class="dropdown"><a href="category.html"><span>Categories</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                        <li><a href="search-result.html">Search Result</a></li>
+                        <li><a href="#">Drop Down 1</a></li>
+                        <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                            <ul>
+                                <li><a href="#">Deep Drop Down 1</a></li>
+                                <li><a href="#">Deep Drop Down 2</a></li>
+                                <li><a href="#">Deep Drop Down 3</a></li>
+                                <li><a href="#">Deep Drop Down 4</a></li>
+                                <li><a href="#">Deep Drop Down 5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Drop Down 2</a></li>
+                        <li><a href="#">Drop Down 3</a></li>
+                        <li><a href="#">Drop Down 4</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="position-relative">
+            <nav id="navbarlogin" class="navbar">
+                {% if request.user.is_authenticated %}
+                    <ul>
+                        <li class="dropdown"><a href="#" class="mx-2"><span>{{ user.username }}</span><i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                            <ul>
+                                <li><a href="{% url 'create-travel-post' %}">Create Post</a></li>
+                                <li><a href="#">Account</a></li>
+                                <li><a href="#">Deep Drop Down 3</a></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+                <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
+                <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
+                <a href="#" class="mx-2"><span class="bi-twitter-x"></span></a>
+                <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+
+                <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+
+                <!-- ======= Search Form ======= -->
+                <div class="search-form-wrap js-search-form-wrap">
+                    <form action="search-result.html" class="search-form">
+                        <span class="icon bi-search"></span>
+                        <input type="text" placeholder="Search" class="form-control">
+                        <button class="btn js-search-close"><span class="bi-x"></span></button>
+                    </form>
+                </div><!-- End Search Form -->
+            </nav>
+        </div>
+
+    </div>
+
+</header>
