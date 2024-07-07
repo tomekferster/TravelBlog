@@ -3,16 +3,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
-def profiles(request):
-    context = {}
-    return render(request, 'users/profiles.html', context)
 
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
             return redirect('home')
@@ -20,7 +18,7 @@ def login_view(request):
             # No backend authenticated the credentials (user does not exist)
             pass   
     context = {}
-    return render(request, 'users/login_register.html', context)
+    return render(request, 'account/login_register.html', context)
 
 def logout_view(request):
     logout(request)
@@ -33,4 +31,4 @@ def register_view(request):
         form = UserCreationForm()
     context = {}
     print(request.POST)
-    return render(request, 'users/login_register.html', context)
+    return render(request, 'account/login_register.html', context)

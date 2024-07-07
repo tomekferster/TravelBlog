@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'base.apps.BaseConfig', # added
-    'users.apps.UsersConfig', # added
+    'account.apps.AccountConfig', # added
+    'sorl.thumbnail', # added
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'account.Account' #overwrites the deafoult User object
 
 WSGI_APPLICATION = 'travelblog.wsgi.application'
 
@@ -122,17 +125,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles' # defines where static files in the production (!) are gonna be, to update it run python manage.py collectstatic
 
-MEDIA_URL = 'images/'
-MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_URL = '/images/'
+MEDIA_ROOT = BASE_DIR / 'static/images/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 

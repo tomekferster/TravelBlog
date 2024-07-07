@@ -4,61 +4,65 @@
 
 <main id="main">
     <!-- ======= Post Grid Section ======= -->
+  {% if not no_posts %}
   <section id="posts" class="posts">
     <div class="container" data-aos="fade-up">
       <div class="row g-5">
         <div class="col-lg-4">
           <div class="post-entry-1 lg">
             <a href="{% url 'travel-post' travel_post_newest.id %}"><img src="{{ travel_post_newest.image.url }}" alt="" class="img-fluid"></a>
-            <div class="post-meta"><span class="date">Culture{{ travel_post_newest.id }}</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post_newest.created }}</span></div>
+            <div class="post-meta"><span class="date">Culture</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post_newest.created }}</span></div>
             <h2><a href="{% url 'travel-post' travel_post_newest.id %}">{{ travel_post_newest.name }}</a></h2>
             <p class="mb-4 d-block">{{ travel_post_newest.text }}</p>
 
             <div class="d-flex align-items-center author">
-              <div class="photo"><img src="{% static 'bootstrap/img/person-1.jpg' %}" alt="" class="img-fluid"></div>
+              <div class="photo"><img src="{% static travel_post_newest.author.image.url %}" alt="" class="img-fluid"></div>
               <div class="name">
-                <h3 class="m-0 p-0">Cameron Williamson</h3>
+                <h3 class="m-0 p-0">{{ travel_post_newest.author.username }}</h3>
               </div>
             </div>
           </div>
 
         </div>
-
+        
         <div class="col-lg-8">
           <div class="row g-5">
+            {% if one_page_available or two_page_available %}
             <div class="col-lg-4 border-start custom-border">
               {% for travel_post in travel_posts_1 %}
               <div class="post-entry-1">
                 <a href="{% url 'travel-post' travel_post.id %}"><img src="{{ travel_post.image.url }}" alt="" class="img-fluid"></a>
-                <div class="post-meta"><span class="date">Travel{{ travel_post.id }}</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post.created }}</span></div>
+                <div class="post-meta"><span class="date">Travel</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post.created }}</span></div>
                 <h2><a href="{% url 'travel-post' travel_post.id %}">{{ travel_post.name }}</a></h2>
                 <div class="d-flex align-items-center author">
-                  <div class="photo"><img src="{% static 'bootstrap/img/person-1.jpg' %}" alt="" class="img-fluid"></div>
+                  <div class="photo"><img src="{% static travel_post.author.image.url %}" alt="" class="img-fluid"></div>
                   <div class="name">
-                    <h3 class="m-0 p-0">{{ travel_post.author }}</h3>
+                    <h3 class="m-0 p-0">{{ travel_post.author.username }}</h3>
                   </div>
                 </div>
               </div>
               <hr>
               {% endfor %}
             </div>
+            {% endif %}
+            {% if two_page_available %}
             <div class="col-lg-4 border-start custom-border">
               {% for travel_post in travel_posts_2 %}
               <div class="post-entry-1">
                 <a href="{% url 'travel-post' travel_post.id %}"><img src="{{ travel_post.image.url }}" alt="" class="img-fluid"></a>
-                <div class="post-meta"><span class="date">Travel{{ travel_post.id }}</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post.created }}</span></div>
+                <div class="post-meta"><span class="date">Travel</span> <span class="mx-1">&bullet;</span> <span>{{ travel_post.created }}</span></div>
                 <h2><a href="{% url 'travel-post' travel_post.id %}">{{ travel_post.name }}</a></h2>
                 <div class="d-flex align-items-center author">
-                  <div class="photo"><img src="{% static 'bootstrap/img/person-1.jpg' %}" alt="" class="img-fluid"></div>
+                  <div class="photo"><img src="{% static travel_post.author.image.url %}" alt="" class="img-fluid"></div>
                   <div class="name">
-                    <h3 class="m-0 p-0">{{ travel_post.author }}</h3>
+                    <h3 class="m-0 p-0">{{ travel_post.author.username }}</h3>
                   </div>
                 </div>
               </div>
               <hr>
               {% endfor %}
             </div>
-            
+            {% endif %}
 
             <!-- Trending Section -->
             <div class="col-lg-4">
@@ -111,7 +115,7 @@
       </div> <!-- End .row -->
     </div>
   </section> <!-- End Post Grid Section -->
-
+  {% endif %}
   <!-- ======= Culture Category Section ======= -->
   <section class="category-section">
     <div class="container" data-aos="fade-up">
