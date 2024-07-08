@@ -9,7 +9,7 @@ class TravelPostForm(forms.ModelForm):
     new_tags = forms.CharField(label = "", required = False, widget=forms.TextInput(attrs={"size": 30, "placeholder": "Enter new tag here..."}))
     class Meta:
         model = TravelPost
-        fields = ['name', 'text', 'image', 'tags']
+        fields = ('name', 'text', 'image', 'tags')
         widgets = {
             "name": forms.TextInput(attrs={"size": 40, "placeholder": "Enter travel post name here..."}),
             "text": forms.Textarea(attrs={"rows": 20, "placeholder": "Enter travel post text here..."}),
@@ -38,4 +38,4 @@ class TravelPostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['text', 'vote_post']
+        fields = ('text', 'vote_post')

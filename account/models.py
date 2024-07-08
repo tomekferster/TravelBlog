@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from PIL import Image
 
 
 class MyAccountManager(BaseUserManager):
@@ -69,3 +70,13 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self, app_label):
         return True
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        SIZE = (100, 100)
+        if self.image:
+            img = Image.open(self.image.path)
+            print(self.image.path)
+            img.thumbnail(SIZE, Image.LANCZOS)
+            img.save(self.image.path)
+  

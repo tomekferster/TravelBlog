@@ -3,23 +3,38 @@
 {% block content %}
 
 <main id="main">
+    {% if page_name == 'login' %}
+        <div>
+            <h1>LOGIN</h1>
 
-    <h1>LOGIN</h1>
+            <form method="POST" action="">
+                {% csrf_token %}
+                
+                <label>Email:</label>
+                <input type="email" name="email" placeholder="Enter Email...">
+                
+                <br>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter Password...">
+                
+                <br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        
-        <label>Email:</label>
-        <input type="email" name="email" placeholder="Enter Email...">
-        
-        <br>
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Enter Password...">
-        
-        <br>
-        <input type="submit" value="Login">
-    </form>
-    
+    {% elif page_name == 'register' %}
+        <div>
+            <h1>REGISTER</h1>
+
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Register">
+            </form>
+        </div> 
+    {% else %}
+        <h1>WRONG PAGE. Click <a href="{% url 'home' %}">here</a> to go to homepage</h1>
+    {% endif %}
 
 </main>
 {% endblock content %}
