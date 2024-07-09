@@ -48,6 +48,4 @@ def register_view(request):
     context = {'form': form,
                'page_name': page_name
                }
-    print(request.POST)
-    print(request.FILES)
     return render(request, 'account/login_register.html', context)

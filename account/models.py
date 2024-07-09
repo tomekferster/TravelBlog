@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from PIL import Image
 
+from base.utils import crop_image
+
 
 class MyAccountManager(BaseUserManager):
     # email and username are passed here because these are required to create Account
@@ -73,10 +75,8 @@ class Account(AbstractBaseUser):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        SIZE = (100, 100)
         if self.image:
+            crop_image(self.image.path)
             img = Image.open(self.image.path)
-            print(self.image.path)
-            img.thumbnail(SIZE, Image.LANCZOS)
             img.save(self.image.path)
   
