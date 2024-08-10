@@ -1298,3 +1298,28 @@ section {
 .footer .credits a {
   color: var(--color-white);
 }
+
+/* for thumbs up/down reply */
+.comm-thumb-up { 
+  color: #aaa; 
+} 
+
+.comm-thumb-up:hover { 
+  color: #2a72e6; 
+}
+
+.comm-thumb-down { 
+  color: #aaa; 
+} 
+
+.comm-thumb-down:hover { 
+  color: #c70c0c; 
+}
+
+.comm-reply { 
+  color: #aaa; 
+} 
+
+.comm-reply:hover { 
+  color: #080808; 
+}

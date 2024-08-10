@@ -38,4 +38,10 @@ class TravelPostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('text', 'vote_post')
+        fields = ('text',)
+
+    # customizing form fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['text'].widget.attrs.update({"class": "form-control", "name": "comment", "placeholder": "Enter your comment here...", "cols": "30", "rows": "10"})
+        self.fields['text'].label = ""

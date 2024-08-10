@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import TravelPost, Tag
+from .models import TravelPost, Tag, Comment, Like
 from .forms import TravelPostForm, CommentForm
 from travelblog.settings import MEDIA_ROOT, MEDIA_URL
 
@@ -33,7 +34,7 @@ def home(request, *args, **kwargs):
     two_page_available = False
 
 
-    travel_posts_all = TravelPost.objects.order_by('-created')
+    travel_posts_all = TravelPost.objects.all()
     posts_number = len(travel_posts_all)
     if posts_number:
         no_posts = False
@@ -63,8 +64,6 @@ def about(request):
 
 def travel_post(request, pk):
     travel_post = get_object_or_404(TravelPost, pk=pk)
-    comments = travel_post.comment_set.all()            # accessing child class 
-    comments_num = len(travel_post.comment_set.all())
     # tags = travel_post.tags.all()                     # accessing many to many relation classes, done on the template side
     new_comment = None
 
@@ -73,16 +72,36 @@ def travel_post(request, pk):
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.post = travel_post
+            new_comment.author = request.user
             new_comment.save()
             return redirect('travel-post', pk=travel_post.pk)
 
     context = {
         'travel_post': travel_post,
-        'comments': comments,
-        'comments_num': comments_num,
         'form': form,
         }
     return render(request, 'base/travel_post.html', context)
+
+
+@login_required(login_url='/account/login/')
+def like(request, pk):
+    print("HELLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    comment = get_object_or_404(Comment, pk=pk)
+    comment_likes = comment.likes
+    like = Like.objects.filter(author=request.user, comment=comment).count()
+
+    if not like:
+        like = Like.objects.create(author=request.user, comment=comment)
+        comment_likes = comment_likes + 1
+    else:
+        like = Like.objects.filter(author=request.user, comment=comment).delete()
+        comment_likes = comment_likes - 1
+    
+    comment.likes = comment_likes
+    comment.save()
+
+    return redirect('travel-post', pk=comment.post.id)
+
 
 @login_required(login_url='/account/login/')
 def create_travel_post(request):
@@ -92,7 +111,6 @@ def create_travel_post(request):
             form.instance.author = request.user
             new_travel_post = form.save()
             add_tags(request, new_travel_post)
-            print(new_travel_post.author)
             new_travel_post.save()
             return redirect('home')
     context = {

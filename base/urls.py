@@ -9,4 +9,5 @@ urlpatterns = [
     path('delete-travel-post/<str:pk>/', views.delete_travel_post, name='delete-travel-post'),
     path('contact/', views.contact, name='contact'),
     path('about/', views.about, name='about'),
+    path('travel-post/<str:pk>/like/', views.like, name='like'),
 ]
